@@ -17,6 +17,17 @@ pgAdmin: http://localhost:5050 (admin@local.dev / admin)
 
 ## Progress tracker
 
+### Week 0 — FHIR hands-on via Pyronis (do this FIRST, ~3–4 days)
+
+Companion repo: [`../pyronis`](https://github.com/berkant-k/pyronis) — FHIR-native EMR UI (Next.js) that talks directly to a FHIR R4B server. No proprietary backend: every button = documented FHIR REST call. Raw JSON viewer on every detail page.
+
+- [ ] Day A: Run the stack — `docker run --rm -p 8080:8080 ghcr.io/ginocanessa/fhir-candle:latest` (FHIR server + resource browser at :8080), then `npm install && npm run dev` in `../pyronis`. Register a patient; open Raw JSON viewer; find the `Patient` resource in fhir-candle's browser.
+- [ ] Day B: Core clinical resources — start an Encounter, record vitals (Observation + LOINC), add a diagnosis (Condition + ICD-10), prescribe (MedicationRequest → MedicationAdministration). For each: UI action → inspect raw JSON → match against the resource page at hl7.org/fhir. Study README's "How each UI action maps to FHIR" table.
+- [ ] Day C: References & structure — trace how `Observation.subject`, `Observation.encounter`, `Condition.encounter` link resources; identifiers (MRN/QID) vs resource `id`; extensions (bilingual names); CodeableConcept in the wild.
+- [ ] Day D: Event-driven FHIR — create a Subscription (R4B backport IG), trigger it, watch notification Bundle arrive at `/api/fhir/notify`. Write `notes/fhir-fundamentals.md` from what you saw.
+
+Payoff: Week 1's capstone schema models the exact resources you just touched, and Week 4's storage-strategy work starts from real FHIR JSON, not spec-reading.
+
 ### Week 1 — Data modeling & schema design
 - [ ] Day 1–2: Setup + relational model theory (keys, functional dependencies)
 - [ ] Day 3–4: Normalization 1NF→BCNF + when to denormalize
@@ -35,9 +46,9 @@ pgAdmin: http://localhost:5050 (admin@local.dev / admin)
 - [ ] Day 19–20: pg_dump vs physical backup, PITR drill (restore before bad DELETE), replication concepts
 - [ ] Day 21: **Capstone pt 3** — roles, RLS policies, backup script, OPERATIONS.md runbook
 
-### Week 4 — FHIR, migrations, capstone finish
-- [ ] Day 22–23: FHIR fundamentals (resources, references, CodeableConcept, LOINC/SNOMED)
-- [ ] Day 24–25: FHIR storage strategies (relational vs jsonb vs **hybrid**); migrate capstone to hybrid
+### Week 4 — FHIR deep-dive, migrations, capstone finish
+- [ ] Day 22–23: FHIR spec deep-dive (builds on Week 0): terminology binding (LOINC/SNOMED/CVX), search parameters, Bundles/transactions; export real resources from your Week-0 fhir-candle data as test fixtures
+- [ ] Day 24–25: FHIR storage strategies (relational vs jsonb vs **hybrid**); migrate capstone to hybrid, load the Week-0 fixtures into it
 - [ ] Day 26–27: Migrations: expand-and-contract, lock-safe DDL, CREATE INDEX CONCURRENTLY; retrofit capstone as migration series
 - [ ] Day 28–30: End-to-end run, PRINCIPLES.md, 1-hour cold schema-design self-test
 
@@ -54,6 +65,8 @@ notes/                 # one file per topic: generic principle → Postgres spec
 
 ## References
 
+- [Pyronis EMR](https://github.com/berkant-k/pyronis) — FHIR-native EMR sandbox (cloned at `../pyronis`) — Week 0 + Week 4
+- [fhir-candle](https://github.com/FHIR/fhir-candle) — lightweight local FHIR server with resource browser
 - [PostgreSQL docs](https://www.postgresql.org/docs/current/) — primary text
 - *Designing Data-Intensive Applications* (Kleppmann) — ch. 2, 3, 7
 - [Use The Index, Luke](https://use-the-index-luke.com/) — indexing
