@@ -1,23 +1,19 @@
-# Day 1 — Setup + relational model warm-up
+# Day 2 warm-up — keys & relational model
 
-## 1. Environment check
+## 1. Reading (~20 min)
 
-```bash
-docker compose up -d
-psql -h localhost -U postgres -d wellsync -c 'select version();'
-```
-
-## 2. Reading (~45 min)
-
-- Postgres docs: [Tutorial ch. 2 — The SQL Language](https://www.postgresql.org/docs/current/tutorial-sql.html) (skim what you know)
 - Kleppmann DDIA ch. 2 "Data Models and Query Languages" — relational vs document section
 - Think about: what does the relational model *guarantee* that a JSON blob store doesn't?
 
-## 3. Exercise: keys (~30 min)
+## 2. Exercise: keys (~30 min)
 
-Run `exercise-keys.sql` against the DB, then answer inline questions in comments.
+Run `exercise-keys.sql` against the DB, then answer inline questions in comments:
 
-## 4. Notes
+```bash
+psql -h localhost -U postgres -d wellsync -f exercise-keys.sql
+```
+
+## 3. Notes
 
 Start `notes/keys-and-dependencies.md` from the template:
 - Primary vs candidate vs surrogate vs natural key — generic definitions
