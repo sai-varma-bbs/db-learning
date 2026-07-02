@@ -21,7 +21,7 @@ pgAdmin: http://localhost:5050 (admin@local.dev / admin)
 
 Companion repo: [`../pyronis`](https://github.com/berkant-k/pyronis) — FHIR-native EMR UI (Next.js) that talks directly to a FHIR R4B server. No proprietary backend: every button = documented FHIR REST call. Raw JSON viewer on every detail page.
 
-- [ ] Day A: Run the stack — `docker run --rm -p 8080:8080 ghcr.io/ginocanessa/fhir-candle:latest` (FHIR server + resource browser at :8080), then `npm install && npm run dev` in `../pyronis`. Register a patient; open Raw JSON viewer; find the `Patient` resource in fhir-candle's browser.
+- [ ] Day A: Run the stack — `docker run -d --name fhir-candle -p 5826:5826 ghcr.io/fhir/fhir-candle:latest` (FHIR server + resource browser at http://localhost:5826; R4B endpoint `/fhir/r4b` matches pyronis `.env` default), then `npm install && npm run dev` in `../pyronis`. Register a patient; open Raw JSON viewer; find the `Patient` resource in fhir-candle's browser.
 - [ ] Day B: Core clinical resources — start an Encounter, record vitals (Observation + LOINC), add a diagnosis (Condition + ICD-10), prescribe (MedicationRequest → MedicationAdministration). For each: UI action → inspect raw JSON → match against the resource page at hl7.org/fhir. Study README's "How each UI action maps to FHIR" table.
 - [ ] Day C: References & structure — trace how `Observation.subject`, `Observation.encounter`, `Condition.encounter` link resources; identifiers (MRN/QID) vs resource `id`; extensions (bilingual names); CodeableConcept in the wild.
 - [ ] Day D: Event-driven FHIR — create a Subscription (R4B backport IG), trigger it, watch notification Bundle arrive at `/api/fhir/notify`. Write `notes/fhir-fundamentals.md` from what you saw.
